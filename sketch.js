@@ -6,7 +6,7 @@ var running;
 var gameOver;
 
 function setup() {
-  width = 500;
+  width = 800;
   height = 500;
   ratio = 10;
   framerate = 10;
