@@ -40,7 +40,7 @@ function Snake() {
 
     this.willHitFood = function(pos) {
         var d = dist(this.x, this.y, pos.x, pos.y);
-        if(d <= 10) {
+        if(d < 10) {
             return true;
         } else {
             return false;
@@ -60,8 +60,10 @@ function Snake() {
         for(var i = 0; i < this.size; i++) {
           x = this.tail[i][0];
           y = this.tail[i][1];
-          if(future_x == x && future_y == y) {
-              print('HIT')
+          var d = dist(this.x, this.y, x, y);
+          if(d<=10)
+            print("d: " + d)
+          if(d < 10) {
               return true;
           }
         }

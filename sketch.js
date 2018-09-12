@@ -7,12 +7,12 @@ var gameOver;
 var valid_input;
 
 function setup() {
-    width = 800;
-    height = 500;
+    width = 100;
+    height = 100;
     ratio = 10;
     framerate = 7;
     createCanvas(width, height);
-    frameRate(8);
+    frameRate(2);
     snake = new Snake();
     food = new Food();
     food.changePosition();
@@ -48,11 +48,11 @@ function draw() {
         console.log("Hit border! Game over!")
         stopGame()
     }
-    if(!gameOver && running && snake.willHitFood(food)) {
+    else if(!gameOver && running && snake.willHitFood(food)) {
         snake.eat()
         food.changePosition(snake.tail, snake.size);
     }
-    if(!gameOver && running && snake.willHitTail()){
+    else if(!gameOver && running && snake.willHitTail()){
         console.log("Hit tail! Game over!")
         stopGame()
     }
