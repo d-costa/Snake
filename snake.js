@@ -9,9 +9,9 @@ function Snake() {
 
     this.update = function() {
       for(var i = 0; i < this.size - 1; i++) {
-        this.tail[i] = this.tail[i+1]
+        this.tail[i] = this.tail[i+1];
       }
-      this.tail[this.size-1] = [this.x, this.y]
+      this.tail[this.size-1] = [this.x, this.y];
 
       this.x += this.x_speed * ratio;
       this.y += this.y_speed * ratio;
@@ -54,7 +54,17 @@ function Snake() {
             || future_y < 0 || future_y + ratio > height);
     }
 
-    this.checkTail = function() {
+    this.willHitTail = function() {
+        var future_x = this.x + this.x_speed;
+        var future_y = this.y + this.y_speed;
+        for(var i = 0; i < this.size; i++) {
+          x = this.tail[i][0];
+          y = this.tail[i][1];
+          if(future_x == x && future_y == y) {
+              print('HIT')
+              return true;
+          }
+        }
         return false;
     }
 

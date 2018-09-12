@@ -45,12 +45,16 @@ function draw() {
 
 
     if(!gameOver && running && snake.willHitBorder()) {
-        console.log("Game over!")
+        console.log("Hit border! Game over!")
         stopGame()
     }
-    if(snake.willHitFood(food)) {
+    if(!gameOver && running && snake.willHitFood(food)) {
         snake.eat()
         food.changePosition(snake.tail, snake.size);
+    }
+    if(!gameOver && running && snake.willHitTail()){
+        console.log("Hit tail! Game over!")
+        stopGame()
     }
 
     if(running) {
@@ -86,7 +90,7 @@ function keyPressed() {
                     snake.direction(-1, 0);
                 }
                 break;
-            case 82:  // 'R' key, reset
+            case 82:  // 'r' key, reset
                 reset()
                 break;
             case 80:  // 'P' key, reset
@@ -97,6 +101,9 @@ function keyPressed() {
                 break;
             case 50:  // '.' key, reset
                 frameRate(8)
+                break;
+            case 69:  // 'e' key, reset
+                snake.eat()
                 break;
             default:
                 break;
