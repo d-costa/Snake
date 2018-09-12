@@ -15,8 +15,8 @@ function Snake() {
 
       this.x += this.x_speed * ratio;
       this.y += this.y_speed * ratio;
-      this.x = constrain(this.x, -1, width-ratio + 1);
-      this.y = constrain(this.y, -1, height-ratio + 1);
+      this.x = constrain(this.x, 0, width-ratio);
+      this.y = constrain(this.y, 0, height-ratio);
     }
 
     this.show = function() {
@@ -29,17 +29,8 @@ function Snake() {
     }
 
     this.direction = function(dir_x, dir_y) {
-      this.x_speed = dir_x;
-      this.y_speed = dir_y;
-    }
-
-    this.checkFood = function(pos) {
-      var d = dist(this.x, this.y, pos.x, pos.y);
-      if(d < 1) {
-        return true;
-      } else {
-        return false;
-      }
+        this.x_speed = dir_x;
+        this.y_speed = dir_y;
     }
 
     this.eat = function() {
@@ -47,8 +38,24 @@ function Snake() {
       this.size += 1;
     }
 
-    this.insideBorders = function() {
-      return (this.x >= 0 && this.x + ratio <= width && this.y >= 0 && this.y + ratio <= height);
+    this.willHitFood = function(pos) {
+        var d = dist(this.x, this.y, pos.x, pos.y);
+        if(d <= 10) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    this.willHitBorder = function() {
+        var future_x = this.x + this.x_speed;
+        var future_y = this.y + this.y_speed;
+        return (future_x < 0 || future_x + ratio > width
+            || future_y < 0 || future_y + ratio > height);
+    }
+
+    this.checkTail = function() {
+        return false;
     }
 
 

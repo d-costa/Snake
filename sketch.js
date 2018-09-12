@@ -4,87 +4,103 @@ var snake;
 var ratio;
 var running;
 var gameOver;
+var valid_input;
 
 function setup() {
-  width = 800;
-  height = 500;
-  ratio = 10;
-  framerate = 10;
-  createCanvas(width, height);
-  frameRate(10);
-  snake = new Snake();
-  food = new Food();
-  food.changePosition();
-  running = true;
-  gameOver = false;
+    width = 800;
+    height = 500;
+    ratio = 10;
+    framerate = 7;
+    createCanvas(width, height);
+    frameRate(8);
+    snake = new Snake();
+    food = new Food();
+    food.changePosition();
+    running = true;
+    gameOver = false;
+    validInput = false;
 }
 
 
 function reset() {
-  snake = new Snake()
-  food.changePosition()
-  running = true;
-  gameOver = false;
+    snake = new Snake()
+    food.changePosition()
+    running = true;
+    gameOver = false;
 }
 
 function togglePause() {
-  running = !running;
+    running = !running;
 }
 
 function stopGame() {
-  gameOver = true;
-  reset()
-
+    gameOver = true;
+    reset()
 }
 
 function draw() {
-  background(51);
-  if(running) {
-    snake.update();
-  }
-  if(!gameOver && running && !snake.insideBorders()) {
-    console.log("Game over!")
-    stopGame()
-  }
-  if(snake.checkFood(food)) {
-    food.changePosition(snake.tail, snake.size);
-    snake.eat()
-  }
-  snake.show();
-  food.show();
+    valid_input = false;
+    // direction is set and cannot be changed
+    background(51);
+
+
+    if(!gameOver && running && snake.willHitBorder()) {
+        console.log("Game over!")
+        stopGame()
+    }
+    if(snake.willHitFood(food)) {
+        snake.eat()
+        food.changePosition(snake.tail, snake.size);
+    }
+
+    if(running) {
+        snake.update();
+    }
+
+    snake.show();
+    food.show();
+    valid_input = true;
 }
 
 
 function keyPressed() {
-  switch(keyCode) {
-    case UP_ARROW:
-      if(snake.y_speed == 0 && running && !gameOver) {
-        snake.direction(0, -1);
-      }
-      break;
-    case DOWN_ARROW:
-      if(snake.y_speed == 0 && running && !gameOver) {
-        snake.direction(0, 1);
-      }
-      break;
-    case RIGHT_ARROW:
-      if(snake.x_speed == 0 && running && !gameOver) {
-        snake.direction(1, 0);
-      }
-      break;
-    case LEFT_ARROW:
-      if(snake.x_speed == 0 && running && !gameOver) {
-        snake.direction(-1, 0);
-      }
-      break;
-    case 82:  // 'R' key, reset
-      reset()
-      break;
-    case 80:  // 'P' key, reset
-      togglePause()
-      break;
-    default:
-      break;
-  }
-
+    if(valid_input) {
+        switch(keyCode) {
+            case UP_ARROW:
+                if(snake.y_speed == 0 && running && !gameOver) {
+                    snake.direction(0, -1);
+                }
+                break;
+            case DOWN_ARROW:
+                if(snake.y_speed == 0 && running && !gameOver) {
+                    snake.direction(0, 1);
+                }
+                break;
+            case RIGHT_ARROW:
+                if(snake.x_speed == 0 && running && !gameOver) {
+                    snake.direction(1, 0);
+                }
+                break;
+            case LEFT_ARROW:
+                if(snake.x_speed == 0 && running && !gameOver) {
+                    snake.direction(-1, 0);
+                }
+                break;
+            case 82:  // 'R' key, reset
+                reset()
+                break;
+            case 80:  // 'P' key, reset
+                togglePause()
+                break;
+            case 49:  // '1' key, reset
+                frameRate(1)
+                break;
+            case 50:  // '.' key, reset
+                frameRate(8)
+                break;
+            default:
+                break;
+        }
+    }
+    return false;  // convention
 }
