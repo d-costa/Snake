@@ -4,28 +4,38 @@ var snake;
 var ratio;
 var running;
 var gameOver;
-var valid_input;
+var direction_changed;
+var num_food;
 
 function setup() {
     width = 800;
     height = 600;
     ratio = 10;
+    num_food = 5;
     frameRate(8);
     createCanvas(width, height);
     snake = new Snake();
-    food = new Food();
-    food.changePosition();
+    food_col = []
+    create_food();
     running = true;
     gameOver = false;
-    validInput = false;
+    direction_changed = false;
 }
 
+function create_food() {
+    for(var i = 0; i < num_food; i++) {
+        food = new Food()
+        food.changePosition(snake.tail, snake.size)
+        food_col[i] = food;
+    }
+}
 
 function reset() {
     snake = new Snake()
-    food.changePosition()
+    create_food()
     running = true;
     gameOver = false;
+    direction_changed = false;
 }
 
 function togglePause() {
@@ -40,12 +50,13 @@ function stopGame() {
 function draw() {
     background(51);
     meal_time = false;
+    food = snake.willHitFood(food_col)
 
     if(!gameOver && running && snake.willHitBorder()) {
         console.log("Hit border! Game over!")
         stopGame()
     }
-    else if(!gameOver && running && snake.willHitFood(food)) {
+    else if(!gameOver && running && (food != null)) {
         meal_time = true;
     }
     else if(!gameOver && running && snake.willHitTail()){
@@ -64,11 +75,19 @@ function draw() {
     }
 
     snake.show();
-    food.show();
-
+    control_food_number()
+    for(var i = 0; i < num_food; i++) {
+        food_col[i].show()
+    }
 }
-
-
+function control_food_number() {
+    if(snake.size > 20)
+        num_food = 3
+    else if(snake.size > 40)
+            num_food = 2
+    if(snake.size > 50)
+        num_food = 1
+}
 function keyPressed() {
     switch(keyCode) {
         case UP_ARROW:

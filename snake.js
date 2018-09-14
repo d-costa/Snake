@@ -34,17 +34,29 @@ function Snake() {
     }
 
     this.eat = function() {
+      /*
+      Eating doeant move the tail.
+      Instead it updates just the head and inserts a new piece
+      to the tail, at the place the head just left.
+      */
       this.tail[this.size] = [this.x, this.y];
       this.size += 1;
       this.x += this.x_speed * ratio;
       this.y += this.y_speed * ratio;
     }
 
-    this.willHitFood = function(pos) {
+    this.willHitFood = function(food_col) {
         var future_x = this.x + this.x_speed * ratio;
         var future_y = this.y + this.y_speed * ratio;
-        var d = dist(pos.x, pos.y, future_x, future_y);
-        return d < 10;
+
+        for(var i = 0; i < num_food; i++) {
+            food = food_col[i];
+            var d = dist(food.x, food.y, future_x, future_y);
+            if (d < 10) {
+              return food;
+            }
+        }
+        return null;
     }
 
     this.willHitBorder = function() {
@@ -67,6 +79,4 @@ function Snake() {
         }
         return false;
     }
-
-
 }
