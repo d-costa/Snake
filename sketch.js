@@ -7,12 +7,11 @@ var gameOver;
 var valid_input;
 
 function setup() {
-    width = 100;
-    height = 100;
+    width = 800;
+    height = 600;
     ratio = 10;
-    framerate = 7;
+    frameRate(8);
     createCanvas(width, height);
-    frameRate(2);
     snake = new Snake();
     food = new Food();
     food.changePosition();
@@ -39,18 +38,15 @@ function stopGame() {
 }
 
 function draw() {
-    valid_input = false;
-    // direction is set and cannot be changed
     background(51);
-
+    meal_time = false;
 
     if(!gameOver && running && snake.willHitBorder()) {
         console.log("Hit border! Game over!")
         stopGame()
     }
     else if(!gameOver && running && snake.willHitFood(food)) {
-        snake.eat()
-        food.changePosition(snake.tail, snake.size);
+        meal_time = true;
     }
     else if(!gameOver && running && snake.willHitTail()){
         console.log("Hit tail! Game over!")
@@ -58,56 +54,65 @@ function draw() {
     }
 
     if(running) {
+      if(meal_time){
+        snake.eat()
+        food.changePosition(snake.tail, snake.size);
+      }else {
         snake.update();
+      }
+      direction_changed = false;
     }
 
     snake.show();
     food.show();
-    valid_input = true;
+
 }
 
 
 function keyPressed() {
-    if(valid_input) {
-        switch(keyCode) {
-            case UP_ARROW:
-                if(snake.y_speed == 0 && running && !gameOver) {
-                    snake.direction(0, -1);
-                }
-                break;
-            case DOWN_ARROW:
-                if(snake.y_speed == 0 && running && !gameOver) {
-                    snake.direction(0, 1);
-                }
-                break;
-            case RIGHT_ARROW:
-                if(snake.x_speed == 0 && running && !gameOver) {
-                    snake.direction(1, 0);
-                }
-                break;
-            case LEFT_ARROW:
-                if(snake.x_speed == 0 && running && !gameOver) {
-                    snake.direction(-1, 0);
-                }
-                break;
-            case 82:  // 'r' key, reset
-                reset()
-                break;
-            case 80:  // 'P' key, reset
-                togglePause()
-                break;
-            case 49:  // '1' key, reset
-                frameRate(1)
-                break;
-            case 50:  // '.' key, reset
-                frameRate(8)
-                break;
-            case 69:  // 'e' key, reset
-                snake.eat()
-                break;
-            default:
-                break;
-        }
+    switch(keyCode) {
+        case UP_ARROW:
+            if(snake.y_speed == 0 && running && !gameOver && !direction_changed) {
+                snake.direction(0, -1);
+                direction_changed = true;
+            }
+            break;
+        case DOWN_ARROW:
+            if(snake.y_speed == 0 && running && !gameOver && !direction_changed) {
+                snake.direction(0, 1);
+                direction_changed = true;
+            }
+            break;
+        case RIGHT_ARROW:
+            if(snake.x_speed == 0 && running && !gameOver && !direction_changed) {
+                snake.direction(1, 0);
+                direction_changed = true;
+            }
+            break;
+        case LEFT_ARROW:
+            if(snake.x_speed == 0 && running && !gameOver && !direction_changed) {
+                snake.direction(-1, 0);
+                direction_changed = true;
+            }
+            break;
+        case 82:  // 'r' key, reset
+            reset()
+            break;
+        case 80:  // 'P' key, reset
+            togglePause()
+            break;
+        case 49:  // '1' key, reset
+            frameRate(0.5)
+            break;
+        case 50:  // '2' key, reset
+            frameRate(8)
+            break;
+        case 69:  // 'e' key, reset
+            snake.eat()
+            break;
+        default:
+            break;
     }
+
     return false;  // convention
 }

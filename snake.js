@@ -36,34 +36,32 @@ function Snake() {
     this.eat = function() {
       this.tail[this.size] = [this.x, this.y];
       this.size += 1;
+      this.x += this.x_speed * ratio;
+      this.y += this.y_speed * ratio;
     }
 
     this.willHitFood = function(pos) {
-        var d = dist(this.x, this.y, pos.x, pos.y);
-        if(d < 10) {
-            return true;
-        } else {
-            return false;
-        }
+        var future_x = this.x + this.x_speed * ratio;
+        var future_y = this.y + this.y_speed * ratio;
+        var d = dist(pos.x, pos.y, future_x, future_y);
+        return d < 10;
     }
 
     this.willHitBorder = function() {
-        var future_x = this.x + this.x_speed;
-        var future_y = this.y + this.y_speed;
+        var future_x = this.x + this.x_speed * ratio;
+        var future_y = this.y + this.y_speed * ratio;
         return (future_x < 0 || future_x + ratio > width
             || future_y < 0 || future_y + ratio > height);
     }
 
     this.willHitTail = function() {
-        var future_x = this.x + this.x_speed;
-        var future_y = this.y + this.y_speed;
+        var future_x = this.x + this.x_speed * ratio;
+        var future_y = this.y + this.y_speed * ratio;
         for(var i = 0; i < this.size; i++) {
           x = this.tail[i][0];
           y = this.tail[i][1];
-          var d = dist(this.x, this.y, x, y);
-          if(d<=10)
-            print("d: " + d)
-          if(d < 10) {
+          var d = dist(future_x, future_y, x, y);
+          if(d < 1) {
               return true;
           }
         }

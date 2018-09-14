@@ -8,7 +8,6 @@ function Food() {
     var rows = floor(height/ratio);
     this.x = floor(random(cols)) * ratio;
     this.y = floor(random(rows)) * ratio;
-
     // do not spawn on top of body of snake
     for (var i = 0; i < lenght; i++) {
       if(forbidden[i][0] == this.x || forbidden[i][1] == this.y)
