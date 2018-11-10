@@ -1,11 +1,11 @@
-var width;
-var height;
-var snake;
-var ratio;
-var running;
-var gameOver;
-var direction_changed;
-var num_food;
+let width;
+let height;
+let snake;
+let ratio;
+let running;
+let gameOver;
+let direction_changed;
+let num_food;
 
 function setup() {
     width = 800;
@@ -23,7 +23,8 @@ function setup() {
 }
 
 function create_food() {
-    for(var i = 0; i < num_food; i++) {
+    let food;
+    for (let i = 0; i < num_food; i++) {
         food = new Food();
         food.changePosition(snake.tail, snake.size);
         food_col[i] = food;
@@ -77,7 +78,7 @@ function draw() {
 
     snake.show();
     control_food_number();
-    for(var i = 0; i < num_food; i++) {
+    for(let i = 0; i < num_food; i++) {
         food_col[i].show()
     }
 }
