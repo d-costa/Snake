@@ -17,7 +17,7 @@ function Snake() {
       this.y += this.y_speed * ratio;
       this.x = constrain(this.x, 0, width-ratio);
       this.y = constrain(this.y, 0, height-ratio);
-    }
+    };
 
     this.show = function() {
       fill(255);
@@ -26,12 +26,12 @@ function Snake() {
       for(var i = 0; i < this.size; i++) {
         rect(this.tail[i][0], this.tail[i][1], ratio, ratio);
       }
-    }
+    };
 
     this.direction = function(dir_x, dir_y) {
         this.x_speed = dir_x;
         this.y_speed = dir_y;
-    }
+    };
 
     this.eat = function() {
       /*
@@ -43,7 +43,7 @@ function Snake() {
       this.size += 1;
       this.x += this.x_speed * ratio;
       this.y += this.y_speed * ratio;
-    }
+    };
 
     this.willHitFood = function(food_col) {
         var future_x = this.x + this.x_speed * ratio;
@@ -57,14 +57,14 @@ function Snake() {
             }
         }
         return null;
-    }
+    };
 
     this.willHitBorder = function() {
         var future_x = this.x + this.x_speed * ratio;
         var future_y = this.y + this.y_speed * ratio;
         return (future_x < 0 || future_x + ratio > width
             || future_y < 0 || future_y + ratio > height);
-    }
+    };
 
     this.willHitTail = function() {
         var future_x = this.x + this.x_speed * ratio;

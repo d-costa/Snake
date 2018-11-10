@@ -32,7 +32,7 @@ function create_food() {
 
 function reset() {
     snake = new Snake();
-    control_food_number()
+    control_food_number();
     create_food();
     running = true;
     gameOver = false;
@@ -51,8 +51,8 @@ function stopGame() {
 
 function draw() {
     background(51);
-    meal_time = false;
-    food = snake.willHitFood(food_col);
+    let meal_time = false;
+    let food = snake.willHitFood(food_col);
 
     if(!gameOver && running && snake.willHitBorder()) {
         console.log("Hit border! Game over!");
@@ -96,25 +96,25 @@ function control_food_number() {
 function keyPressed() {
     switch(keyCode) {
         case UP_ARROW:
-            if(snake.y_speed == 0 && running && !gameOver && !direction_changed) {
+            if(snake.y_speed === 0 && running && !gameOver && !direction_changed) {
                 snake.direction(0, -1);
                 direction_changed = true;
             }
             break;
         case DOWN_ARROW:
-            if(snake.y_speed == 0 && running && !gameOver && !direction_changed) {
+            if(snake.y_speed === 0 && running && !gameOver && !direction_changed) {
                 snake.direction(0, 1);
                 direction_changed = true;
             }
             break;
         case RIGHT_ARROW:
-            if(snake.x_speed == 0 && running && !gameOver && !direction_changed) {
+            if(snake.x_speed === 0 && running && !gameOver && !direction_changed) {
                 snake.direction(1, 0);
                 direction_changed = true;
             }
             break;
         case LEFT_ARROW:
-            if(snake.x_speed == 0 && running && !gameOver && !direction_changed) {
+            if(snake.x_speed === 0 && running && !gameOver && !direction_changed) {
                 snake.direction(-1, 0);
                 direction_changed = true;
             }

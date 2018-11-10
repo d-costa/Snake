@@ -10,10 +10,10 @@ function Food() {
     this.y = floor(random(rows)) * ratio;
     // do not spawn on top of body of snake
     for (var i = 0; i < lenght; i++) {
-      if(forbidden[i][0] == this.x || forbidden[i][1] == this.y)
+      if(forbidden[i][0] === this.x || forbidden[i][1] === this.y)
         this.changePosition(forbidden)
     }
-  }
+  };
 
   this.show = function() {
     fill(255, 0, 0);
