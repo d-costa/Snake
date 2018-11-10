@@ -15,7 +15,7 @@ function setup() {
     frameRate(8);
     createCanvas(width, height);
     snake = new Snake();
-    food_col = []
+    food_col = [];
     create_food();
     running = true;
     gameOver = false;
@@ -24,18 +24,20 @@ function setup() {
 
 function create_food() {
     for(var i = 0; i < num_food; i++) {
-        food = new Food()
-        food.changePosition(snake.tail, snake.size)
+        food = new Food();
+        food.changePosition(snake.tail, snake.size);
         food_col[i] = food;
     }
 }
 
 function reset() {
-    snake = new Snake()
-    create_food()
+    snake = new Snake();
+    control_food_number()
+    create_food();
     running = true;
     gameOver = false;
     direction_changed = false;
+    console.log("size:", snake.size)
 }
 
 function togglePause() {
@@ -50,23 +52,23 @@ function stopGame() {
 function draw() {
     background(51);
     meal_time = false;
-    food = snake.willHitFood(food_col)
+    food = snake.willHitFood(food_col);
 
     if(!gameOver && running && snake.willHitBorder()) {
-        console.log("Hit border! Game over!")
+        console.log("Hit border! Game over!");
         stopGame()
     }
     else if(!gameOver && running && (food != null)) {
         meal_time = true;
     }
     else if(!gameOver && running && snake.willHitTail()){
-        console.log("Hit tail! Game over!")
+        console.log("Hit tail! Game over!");
         stopGame()
     }
 
     if(running) {
       if(meal_time){
-        snake.eat()
+        snake.eat();
         food.changePosition(snake.tail, snake.size);
       }else {
         snake.update();
@@ -75,19 +77,22 @@ function draw() {
     }
 
     snake.show();
-    control_food_number()
+    control_food_number();
     for(var i = 0; i < num_food; i++) {
         food_col[i].show()
     }
 }
 function control_food_number() {
-    if(snake.size > 20)
-        num_food = 3
-    else if(snake.size > 40)
-            num_food = 2
     if(snake.size > 50)
-        num_food = 1
+        num_food = 1;
+    else if(snake.size > 40)
+        num_food = 2;
+    else if(snake.size > 20)
+        num_food = 3;
+    else
+        num_food = 5;
 }
+
 function keyPressed() {
     switch(keyCode) {
         case UP_ARROW:
@@ -115,19 +120,19 @@ function keyPressed() {
             }
             break;
         case 82:  // 'r' key, reset
-            reset()
+            reset();
             break;
         case 80:  // 'P' key, reset
-            togglePause()
+            togglePause();
             break;
         case 49:  // '1' key, reset
-            frameRate(0.5)
+            frameRate(0.5);
             break;
         case 50:  // '2' key, reset
-            frameRate(8)
+            frameRate(8);
             break;
         case 69:  // 'e' key, reset
-            snake.eat()
+            snake.eat();
             break;
         default:
             break;
