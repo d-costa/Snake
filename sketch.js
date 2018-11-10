@@ -37,7 +37,6 @@ function reset() {
     running = true;
     gameOver = false;
     direction_changed = false;
-    console.log("size:", snake.size)
 }
 
 function togglePause() {
